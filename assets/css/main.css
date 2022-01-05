@@ -2149,10 +2149,11 @@ input, select, textarea {
 
 	#headshot {
 		display: block;
-		padding-top: 35px;
+		padding-top: auto;
 		margin-left: auto;
 		margin-right: auto;
-		width: 50%;
+		padding-bottom: auto;
+		width: 65%;
 	}		
 
 /* List */
