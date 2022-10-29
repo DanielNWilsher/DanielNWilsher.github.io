@@ -2153,7 +2153,8 @@ input, select, textarea {
 		margin-left: auto;
 		margin-right: auto;
 		padding-bottom: auto;
-		width: 65%;
+		height: fit-content;
+		width: 55%;
 	}		
 
 /* List */
