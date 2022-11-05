@@ -12,7 +12,7 @@ form, label, legend, table, caption, tbody,
 tfoot, thead, tr, th, td, article, aside,
 canvas, details, embed, figure, figcaption,
 footer, header, hgroup, menu, nav, output, ruby,
-section, summary, time, mark, audio, video {
+section, summary, time, mark, audio, video, table, meter {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -4041,18 +4041,16 @@ input, select, textarea {
 		background-color: #1d242a;
 	}
 
- * {
-	 box-sizing: border-box;
-}
+/*CSS for accordion */
  table {
 	 width: 100%;
 }
  table th {
 	 text-align: left;
-	 border-bottom: 0px solid #ccc;
+	 border-bottom: 1px solid #ccc;
 }
  table th, table td {
-	 padding: 0.1em;
+	 padding: 0.2em;
 }
  table.fold-table > tbody > tr.view td, table.fold-table > tbody > tr.view th {
 	 cursor: pointer;
@@ -4094,10 +4092,13 @@ input, select, textarea {
 	 display: table-row;
 }
  .fold-content {
-	 padding: 0.5em;
+	 padding: 0.2em;
 }
  .fold-content h3 {
 	 margin-top: 0;
+	 width: auto;
+	 height: fit-content;
+	 border-bottom: 2px solid #ccc;
 }
  .fold-content > table {
 	 border: 2px solid #ccc;
