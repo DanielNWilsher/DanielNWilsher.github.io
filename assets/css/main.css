@@ -4091,15 +4091,21 @@ input, select, textarea {
  table.fold-table > tbody > tr.fold.open {
 	 display: table-row;
 }
- .fold-content {
-	 padding: 0.2em;
+.fold-content {
+    max-height: calc(5 * 5em); /* Adjust height based on font-size */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: add a border to define the area */
+    padding: 10px; /* Optional: add some padding */
 }
- .fold-content h3 {
-	 margin-top: 0;
-	 width: auto;
-	 height: fit-content;
-	 border-bottom: 2px solid #ccc;
+
+.fold-content h3 {
+    margin-top: 0;
+    margin-bottom: 0.5em; /* Space between items */
+    width: auto;
+    height: fit-content;
+    border-bottom: 2px solid #ccc;
 }
+
  .fold-content > table {
 	 border: 2px solid #ccc;
 }
