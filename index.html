@@ -7,23 +7,25 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
 	<link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
 
+	<div class="grain" aria-hidden="true"></div>
+
 	<header id="navbar">
 		<div class="nav-inner">
-			<a href="#home" class="logo">Daniel<span>.</span>Wilsher</a>
+			<a href="#home" class="logo">daniel<span class="dim">@</span>wilsher<span class="dim">:~$</span></a>
 
 			<nav class="nav-links" id="nav-links">
-				<a href="#home">Home</a>
-				<a href="#about">About</a>
-				<a href="#experience">Experience</a>
-				<a href="#skills">Skills</a>
-				<a href="#projects">Projects</a>
-				<a href="#contact">Contact</a>
+				<a href="#home">home</a>
+				<a href="#about">about</a>
+				<a href="#experience">log</a>
+				<a href="#skills">stack</a>
+				<a href="#projects">work</a>
+				<a href="#contact">contact</a>
 			</nav>
 
 			<div class="nav-right">
@@ -38,23 +40,27 @@
 		</div>
 	</header>
 
+	<nav class="rail" aria-label="Section navigation">
+		<a class="rail-item" href="#home" data-target="home"><span class="rail-tick"></span><span class="rail-label">home</span></a>
+		<a class="rail-item" href="#about" data-target="about"><span class="rail-tick"></span><span class="rail-label">about</span></a>
+		<a class="rail-item" href="#experience" data-target="experience"><span class="rail-tick"></span><span class="rail-label">log</span></a>
+		<a class="rail-item" href="#skills" data-target="skills"><span class="rail-tick"></span><span class="rail-label">stack</span></a>
+		<a class="rail-item" href="#projects" data-target="projects"><span class="rail-tick"></span><span class="rail-label">work</span></a>
+		<a class="rail-item" href="#contact" data-target="contact"><span class="rail-tick"></span><span class="rail-label">contact</span></a>
+	</nav>
+
 	<main>
 
 		<!-- Hero -->
 		<section id="home">
-			<div class="hero-bg" aria-hidden="true">
-				<div class="blob blob-1"></div>
-				<div class="blob blob-2"></div>
-				<div class="blob blob-3"></div>
-			</div>
-			<div class="container hero-grid">
+			<div class="hero-inner">
 				<div class="hero-content reveal">
-					<span class="eyebrow"><span class="status-dot"></span> Open to new opportunities</span>
-					<h1>Hi, I'm <span class="highlight">Daniel Wilsher</span></h1>
-					<p>Lead Software Engineer at Ally Building Solutions, building scalable full-stack applications, automated data pipelines, and system integrations &mdash; accelerated with AI-assisted development.</p>
+					<span class="hero-kicker"><span class="blink"></span> status: open to new opportunities</span>
+					<h1>Hi, I'm Daniel Wilsher &mdash; I build <em>software that holds up</em>.</h1>
+					<p>Lead Software Engineer at Ally Building Solutions. Full-stack applications, automated data pipelines, and system integrations &mdash; built deliberately, and increasingly with AI as a working partner.</p>
 					<div class="hero-actions">
-						<a href="#projects" class="btn btn-primary"><i class="fas fa-project-diagram"></i> View Projects</a>
-						<a href="#contact" class="btn btn-ghost"><i class="fas fa-paper-plane"></i> Get in Touch</a>
+						<a href="#projects" class="btn btn-primary magnetic">view the work <span class="arrow">&rarr;</span></a>
+						<a href="#contact" class="btn btn-ghost magnetic">get in touch <span class="arrow">&rarr;</span></a>
 					</div>
 					<div class="hero-socials">
 						<a href="https://github.com/DanielNWilsher" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
@@ -63,71 +69,78 @@
 					</div>
 				</div>
 				<div class="hero-visual reveal">
-					<div class="hero-photo-frame">
+					<div class="hero-photo">
+						<span class="crop-mark tl"></span><span class="crop-mark tr"></span>
+						<span class="crop-mark bl"></span><span class="crop-mark br"></span>
 						<img src="images/danielSuitPicture.jpg" alt="Daniel Wilsher" />
 					</div>
-					<div class="hero-badge"><i class="fas fa-code"></i> Full-Stack &amp; Data Engineering</div>
+					<div class="hero-caption">fig. 01 &mdash; daniel, in the field</div>
 				</div>
 			</div>
-			<div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+			<div class="signal-wrap reveal">
+				<svg class="signal-line" viewBox="0 0 620 40" preserveAspectRatio="none">
+					<path d="M0,20 L140,20 L160,6 L180,34 L200,20 L260,20 L280,10 L300,30 L320,20 L620,20" />
+					<path class="traced" d="M0,20 L140,20 L160,6 L180,34 L200,20 L260,20 L280,10 L300,30 L320,20 L620,20" />
+				</svg>
+			</div>
 		</section>
 
 		<!-- About -->
-		<section id="about" class="section-pad">
-			<div class="container">
-				<div class="section-head reveal">
-					<span class="eyebrow">About Me</span>
-					<h2>Engineer, problem solver, lifelong learner</h2>
+		<section id="about" class="block">
+			<div class="col-wide">
+				<div class="spec-label reveal">
+					<span class="idx">&sect; 01 / about</span>
+					<span class="rule"></span>
 				</div>
-				<div class="about-grid">
+				<h2 class="reveal" style="margin-bottom:2rem;max-width:20ch;">Engineer, problem solver, lifelong learner.</h2>
+				<div class="about-layout">
 					<div class="reveal">
-						<div class="education-card">
-							<div class="edu-head">
-								<div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
-								<div>
-									<h3>Utah Valley University</h3>
-									<p class="edu-sub">Bachelor's in University Studies &mdash; Engineering &amp; Technology emphasis, Computer Science minor</p>
-								</div>
+						<div class="dossier">
+							<div class="dossier-head">
+								<span>education</span>
+								<span>UVU</span>
 							</div>
+							<h3>Utah Valley University</h3>
+							<p class="sub">Bachelor's in University Studies &mdash; Engineering &amp; Technology emphasis, Computer Science minor</p>
 							<details>
-								<summary>Relevant Coursework</summary>
-								<div class="course-tags">
-									<span>Fundamentals of Programming</span>
-									<span>Object Oriented Programming</span>
-									<span>Discrete Math I &amp; II</span>
-									<span>C++ Programming</span>
-									<span>Algorithms &amp; Data Structures</span>
-									<span>Software Engineering</span>
-									<span>Web Programming</span>
-									<span>Computer Networks</span>
-									<span>Computer Organization &amp; Architecture</span>
-									<span>Global Ethics in Computing</span>
-									<span>Operating Systems Theory</span>
-									<span>Data Privacy &amp; Security</span>
-									<span>C# &amp; .NET Software Dev</span>
-									<span>Database Theory</span>
-									<span>Technology Management</span>
-									<span>Project Management</span>
-								</div>
+								<summary>relevant coursework</summary>
+								<ul class="course-list">
+									<li>Fundamentals of Programming</li>
+									<li>Object Oriented Programming</li>
+									<li>Discrete Math I &amp; II</li>
+									<li>C++ Programming</li>
+									<li>Algorithms &amp; Data Structures</li>
+									<li>Software Engineering</li>
+									<li>Web Programming</li>
+									<li>Computer Networks</li>
+									<li>Computer Organization &amp; Architecture</li>
+									<li>Global Ethics in Computing</li>
+									<li>Operating Systems Theory</li>
+									<li>Data Privacy &amp; Security</li>
+									<li>C# &amp; .NET Software Dev</li>
+									<li>Database Theory</li>
+									<li>Technology Management</li>
+									<li>Project Management</li>
+								</ul>
 							</details>
 						</div>
 					</div>
-					<div class="about-text reveal">
-						<p>I'm a <strong>Lead Software Engineer</strong> at <a href="https://www.allybuildingsolutions.com/" target="_blank" rel="noopener" style="color:var(--accent);">Ally Building Solutions</a>, where I lead full-stack development of scalable, secure, user-centric web applications and oversee database administration, data warehouse integrations, and automated data pipelines that power advanced reporting across the business.</p>
+					<div class="about-copy reveal">
+						<p>I'm a <strong>Lead Software Engineer</strong> at <a href="https://www.allybuildingsolutions.com/" target="_blank" rel="noopener">Ally Building Solutions</a>, where I lead full-stack development of scalable, secure, user-centric web applications and oversee database administration, data warehouse integrations, and automated data pipelines that power advanced reporting across the business.</p>
 						<p>Earlier in my career I worked as a Software Engineer for Dental Intelligence and a Junior Developer for Granger Medical Clinic, building healthcare and SaaS solutions across Python, C#, Ruby, and PHP.</p>
-						<p>I'm also proficient with AI-assisted development &mdash; using tools like Claude and GitHub Copilot to move faster, ship higher-quality code, and stay ahead of a rapidly evolving industry.</p>
-						<div class="stat-row">
-							<div class="stat-card">
-								<span class="num">3</span>
-								<span class="label">Companies</span>
+						<p>I'm also proficient with <strong>AI-assisted development</strong> &mdash; using tools like Claude and GitHub Copilot deliberately, as part of how I design, build, and review software, not as a replacement for understanding it.</p>
+						<div class="stat-strip">
+							<div class="stat">
+								<span class="num" data-count-to="3">0</span>
+								<span class="label">companies</span>
 							</div>
-							<div class="stat-card">
-								<span class="num">10+</span>
-								<span class="label">Languages &amp; Frameworks</span>
+							<div class="stat">
+								<span class="num" data-count-to="10" data-count-suffix="+">0</span>
+								<span class="label">languages &amp; frameworks</span>
 							</div>
-							<div class="stat-card">
-								<span class="num">8</span>
-								<span class="label">Shipped Projects</span>
+							<div class="stat">
+								<span class="num" data-count-to="8">0</span>
+								<span class="label">shipped projects</span>
 							</div>
 						</div>
 					</div>
@@ -136,55 +149,50 @@
 		</section>
 
 		<!-- Experience -->
-		<section id="experience" class="section-pad alt-bg">
-			<div class="container">
-				<div class="section-head reveal">
-					<span class="eyebrow">Experience</span>
-					<h2>Where I've made an impact</h2>
-					<p>My career progression across healthcare, SaaS, and building industry technology.</p>
+		<section id="experience" class="block band-raised">
+			<div class="col-wide">
+				<div class="spec-label reveal">
+					<span class="idx">&sect; 02 / log</span>
+					<span class="rule"></span>
 				</div>
-				<div class="timeline">
-					<div class="timeline-item current reveal">
-						<div class="timeline-card">
-							<div class="role-row">
-								<h3>Lead Software Engineer</h3>
-								<span class="badge-current">Current</span>
-							</div>
-							<p><span class="company">Ally Building Solutions</span> &mdash; Leading full-stack development of scalable, secure, user-centric web applications. Overseeing database administration, data warehouse integrations, third-party system integrations, and automated data pipelines that power advanced reporting.</p>
-							<div class="tag-row">
-								<span>Full-Stack</span>
-								<span>Database Admin</span>
-								<span>Data Warehousing</span>
-								<span>ETL Pipelines</span>
-							</div>
+				<h2 class="reveal">Where I've made an impact.</h2>
+				<p class="lede reveal">My career progression across healthcare, SaaS, and building-industry technology.</p>
+
+				<div class="log reveal">
+					<div class="log-entry">
+						<div class="meta"><span>2023&ndash;present</span><span class="current">current</span></div>
+						<h3>Lead Software Engineer</h3>
+						<span class="company">Ally Building Solutions</span>
+						<p>Leading full-stack development of scalable, secure, user-centric web applications. Overseeing database administration, data warehouse integrations, third-party system integrations, and automated data pipelines that power advanced reporting.</p>
+						<div class="tag-line">
+							<span>full-stack</span>
+							<span>database admin</span>
+							<span>data warehousing</span>
+							<span>etl pipelines</span>
 						</div>
 					</div>
-					<div class="timeline-item reveal">
-						<div class="timeline-card">
-							<div class="role-row">
-								<h3>Software Engineer</h3>
-							</div>
-							<p><span class="company">Dental Intelligence</span> &mdash; Built backend solutions using Python, C#, Ruby, and PHP across Django, Flask, .NET, Rails, and Laravel frameworks.</p>
-							<div class="tag-row">
-								<span>Python</span>
-								<span>C#</span>
-								<span>Ruby</span>
-								<span>PHP</span>
-							</div>
+					<div class="log-entry">
+						<div class="meta"><span>software engineer</span></div>
+						<h3>Software Engineer</h3>
+						<span class="company">Dental Intelligence</span>
+						<p>Built backend solutions using Python, C#, Ruby, and PHP across Django, Flask, .NET, Rails, and Laravel frameworks.</p>
+						<div class="tag-line">
+							<span>python</span>
+							<span>c#</span>
+							<span>ruby</span>
+							<span>php</span>
 						</div>
 					</div>
-					<div class="timeline-item reveal">
-						<div class="timeline-card">
-							<div class="role-row">
-								<h3>Junior Developer</h3>
-							</div>
-							<p><span class="company">Granger Medical Clinic</span> &mdash; Developed patient- and provider-facing tools in the healthcare sector using JavaScript, HTML, CSS, Python, Flask, SQL, and Mirth Connect.</p>
-							<div class="tag-row">
-								<span>JavaScript</span>
-								<span>Flask</span>
-								<span>SQL</span>
-								<span>Mirth Connect</span>
-							</div>
+					<div class="log-entry">
+						<div class="meta"><span>junior developer</span></div>
+						<h3>Junior Developer</h3>
+						<span class="company">Granger Medical Clinic</span>
+						<p>Developed patient- and provider-facing tools in the healthcare sector using JavaScript, HTML, CSS, Python, Flask, SQL, and Mirth Connect.</p>
+						<div class="tag-line">
+							<span>javascript</span>
+							<span>flask</span>
+							<span>sql</span>
+							<span>mirth connect</span>
 						</div>
 					</div>
 				</div>
@@ -192,51 +200,57 @@
 		</section>
 
 		<!-- Skills -->
-		<section id="skills" class="section-pad">
-			<div class="container">
-				<div class="section-head reveal">
-					<span class="eyebrow">Skills</span>
-					<h2>Languages, frameworks &amp; tools</h2>
-					<p>What I reach for to design, build, and ship software.</p>
+		<section id="skills" class="block">
+			<div class="col-wide">
+				<div class="spec-label reveal">
+					<span class="idx">&sect; 03 / stack</span>
+					<span class="rule"></span>
 				</div>
-				<div class="skills-grid">
-					<div class="skill-card reveal">
-						<div class="skill-head"><i class="fas fa-code"></i><h3>Languages</h3></div>
-						<div class="pill-list">
-							<span>JavaScript</span>
-							<span>Python</span>
-							<span>C#</span>
-							<span>PHP</span>
-							<span>Ruby</span>
-							<span>SQL</span>
+				<h2 class="reveal">Languages, frameworks &amp; tools.</h2>
+				<p class="lede reveal">What I reach for to design, build, and ship software.</p>
+
+				<div class="specimen-grid reveal">
+					<div class="specimen">
+						<span class="spec-idx">01</span>
+						<h3>Languages</h3>
+						<div class="tag-grid">
+							<span class="tag">JavaScript</span>
+							<span class="tag">Python</span>
+							<span class="tag">C#</span>
+							<span class="tag">PHP</span>
+							<span class="tag">Ruby</span>
+							<span class="tag">SQL</span>
 						</div>
 					</div>
-					<div class="skill-card reveal">
-						<div class="skill-head"><i class="fas fa-layer-group"></i><h3>Frameworks &amp; Libraries</h3></div>
-						<div class="pill-list">
-							<span>React</span>
-							<span>Django</span>
-							<span>Flask</span>
-							<span>.NET</span>
-							<span>Laravel</span>
-							<span>Ruby on Rails</span>
+					<div class="specimen">
+						<span class="spec-idx">02</span>
+						<h3>Frameworks &amp; Libraries</h3>
+						<div class="tag-grid">
+							<span class="tag">React</span>
+							<span class="tag">Django</span>
+							<span class="tag">Flask</span>
+							<span class="tag">.NET</span>
+							<span class="tag">Laravel</span>
+							<span class="tag">Ruby on Rails</span>
 						</div>
 					</div>
-					<div class="skill-card reveal">
-						<div class="skill-head"><i class="fas fa-database"></i><h3>Data &amp; Infrastructure</h3></div>
-						<div class="pill-list">
-							<span>Data Warehousing</span>
-							<span>ETL Pipelines</span>
-							<span>Database Administration</span>
-							<span>Docker</span>
+					<div class="specimen">
+						<span class="spec-idx">03</span>
+						<h3>Data &amp; Infrastructure</h3>
+						<div class="tag-grid">
+							<span class="tag">Data Warehousing</span>
+							<span class="tag">ETL Pipelines</span>
+							<span class="tag">Database Admin</span>
+							<span class="tag">Docker</span>
 						</div>
 					</div>
-					<div class="skill-card reveal">
-						<div class="skill-head"><i class="fas fa-magic"></i><h3>Tools &amp; Practices</h3></div>
-						<div class="pill-list">
-							<span>Git</span>
-							<span>GitHub</span>
-							<span class="accent-pill">AI-Assisted Development</span>
+					<div class="specimen">
+						<span class="spec-idx">04</span>
+						<h3>Tools &amp; Practices</h3>
+						<div class="tag-grid">
+							<span class="tag">Git</span>
+							<span class="tag">GitHub</span>
+							<span class="tag tag-accent">AI-Assisted Development</span>
 						</div>
 					</div>
 				</div>
@@ -244,78 +258,93 @@
 		</section>
 
 		<!-- Projects -->
-		<section id="projects" class="section-pad alt-bg">
-			<div class="container">
-				<div class="section-head reveal">
-					<span class="eyebrow">Projects</span>
-					<h2>Things I've built</h2>
-					<p>Front-end &amp; back-end projects using React, Flask, and Python &mdash; hosted via GitHub and Netlify.</p>
+		<section id="projects" class="block band-raised">
+			<div class="col-wide">
+				<div class="spec-label reveal">
+					<span class="idx">&sect; 04 / work</span>
+					<span class="rule"></span>
 				</div>
-				<div class="projects-grid">
-					<a href="https://janessajudkinsvoicestudio.netlify.app/" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fas fa-music"></i></div>
+				<h2 class="reveal">Things I've built.</h2>
+				<p class="lede reveal">Front-end &amp; back-end projects using React, Flask, and Python &mdash; hosted via GitHub and Netlify.</p>
+
+				<div class="project-grid reveal">
+					<a href="https://janessajudkinsvoicestudio.netlify.app/" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 01</span>
 						<h3>Voice Studios Website</h3>
 						<p>A marketing website for a voice studio, built and deployed on Netlify.</p>
-						<span class="project-link">Visit site <i class="fas fa-arrow-right"></i></span>
+						<span class="go">visit site <span class="arrow">&rarr;</span></span>
 					</a>
-					<a href="https://pokedex-og-151.netlify.app/" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fab fa-react"></i></div>
+					<a href="https://pokedex-og-151.netlify.app/" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 02</span>
 						<h3>PokeDex React App</h3>
 						<p>A React app covering the original 151 Pokemon with search and details.</p>
-						<span class="project-link">Visit site <i class="fas fa-arrow-right"></i></span>
+						<span class="go">visit site <span class="arrow">&rarr;</span></span>
 					</a>
-					<a href="https://daniels-web-dev-intro.netlify.app/" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fas fa-globe"></i></div>
+					<a href="https://daniels-web-dev-intro.netlify.app/" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 03</span>
 						<h3>Web Dev Intro Site</h3>
 						<p>An introductory web development project showcasing core HTML/CSS/JS fundamentals.</p>
-						<span class="project-link">Visit site <i class="fas fa-arrow-right"></i></span>
+						<span class="go">visit site <span class="arrow">&rarr;</span></span>
 					</a>
-					<a href="https://github.com/DanielNWilsher/Yugioh_flask" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fab fa-github"></i></div>
+					<a href="https://github.com/DanielNWilsher/Yugioh_flask" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 04</span>
 						<h3>Yu-Gi-Oh Flask App</h3>
 						<p>A Flask application for browsing and managing Yu-Gi-Oh card data.</p>
-						<span class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></span>
+						<span class="go">view on github <span class="arrow">&rarr;</span></span>
 					</a>
-					<a href="https://github.com/DanielNWilsher/School-Projects/blob/main/project7/main.py" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fab fa-github"></i></div>
+					<a href="https://github.com/DanielNWilsher/School-Projects/blob/main/project7/main.py" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 05</span>
 						<h3>Data Script</h3>
 						<p>A Python data processing script built for a coursework project.</p>
-						<span class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></span>
+						<span class="go">view on github <span class="arrow">&rarr;</span></span>
 					</a>
-					<a href="https://github.com/DanielNWilsher/FizzBuzz/blob/main/FizzBuzz.py" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fab fa-python"></i></div>
+					<a href="https://github.com/DanielNWilsher/FizzBuzz/blob/main/FizzBuzz.py" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 06</span>
 						<h3>FizzBuzz</h3>
 						<p>A classic FizzBuzz implementation in Python.</p>
-						<span class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></span>
+						<span class="go">view on github <span class="arrow">&rarr;</span></span>
 					</a>
-					<a href="https://github.com/DanielNWilsher/palindromeChecker/blob/main/palindromeChecker.py" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fab fa-python"></i></div>
+					<a href="https://github.com/DanielNWilsher/palindromeChecker/blob/main/palindromeChecker.py" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 07</span>
 						<h3>Palindrome Checker</h3>
 						<p>A Python script that checks whether a given string is a palindrome.</p>
-						<span class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></span>
+						<span class="go">view on github <span class="arrow">&rarr;</span></span>
 					</a>
-					<a href="https://github.com/DanielNWilsher/passwordGenerator/blob/main/generator.py" target="_blank" rel="noopener" class="project-card reveal">
-						<div class="project-icon"><i class="fas fa-key"></i></div>
+					<a href="https://github.com/DanielNWilsher/passwordGenerator/blob/main/generator.py" target="_blank" rel="noopener" class="bracket-card">
+						<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+						<span class="p-idx">PROJECT / 08</span>
 						<h3>Password Generator</h3>
 						<p>A configurable secure password generator written in Python.</p>
-						<span class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></span>
+						<span class="go">view on github <span class="arrow">&rarr;</span></span>
 					</a>
 				</div>
 			</div>
 		</section>
 
 		<!-- Contact -->
-		<section id="contact" class="section-pad">
-			<div class="container">
-				<div class="section-head reveal">
-					<span class="eyebrow">Contact</span>
-					<h2>Let's build something great together</h2>
-					<p>I'm open to new opportunities &mdash; reach out and let's talk.</p>
+		<section id="contact" class="block">
+			<div class="col-wide">
+				<div class="spec-label reveal">
+					<span class="idx">&sect; 05 / contact</span>
+					<span class="rule"></span>
 				</div>
-				<div class="contact-actions reveal">
-					<a href="mailto:daniel.m.wilsher@gmail.com" class="btn btn-primary"><i class="fas fa-envelope"></i> daniel.m.wilsher@gmail.com</a>
-					<a href="https://www.linkedin.com/in/daniel-wilsher-298778153/" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
-					<a href="https://github.com/DanielNWilsher" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fab fa-github"></i> GitHub</a>
+				<div class="contact-block reveal">
+					<div>
+						<h2>Let's build something great together.</h2>
+						<p>I'm open to new opportunities &mdash; reach out and let's talk.</p>
+					</div>
+					<div class="contact-actions">
+						<a href="mailto:daniel.m.wilsher@gmail.com" class="btn btn-primary magnetic">daniel.m.wilsher@gmail.com <span class="arrow">&rarr;</span></a>
+						<a href="https://www.linkedin.com/in/daniel-wilsher-298778153/" target="_blank" rel="noopener" class="btn btn-ghost magnetic">linkedin <span class="arrow">&rarr;</span></a>
+						<a href="https://github.com/DanielNWilsher" target="_blank" rel="noopener" class="btn btn-ghost magnetic">github <span class="arrow">&rarr;</span></a>
+					</div>
 				</div>
 			</div>
 		</section>
@@ -323,8 +352,8 @@
 	</main>
 
 	<footer>
-		<div class="container footer-inner">
-			<span class="copyright">&copy; <span id="year">2026</span> Daniel Wilsher. Built &amp; designed with AI-assisted development.</span>
+		<div class="col-wide footer-inner">
+			<span class="copyright">&copy; <span id="year">2026</span> daniel wilsher &mdash; built by hand, shipped with AI as a collaborator.</span>
 			<div class="footer-socials">
 				<a href="https://github.com/DanielNWilsher" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
 				<a href="https://www.linkedin.com/in/daniel-wilsher-298778153/" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>

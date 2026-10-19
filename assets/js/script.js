@@ -2,11 +2,14 @@
 	'use strict';
 
 	var root = document.documentElement;
+	var body = document.body;
+	var fine = window.matchMedia('(pointer: fine)').matches;
+
+	/* ---------- theme toggle ---------- */
+
 	var themeToggle = document.getElementById('theme-toggle');
 	var storedTheme = localStorage.getItem('theme');
-	if (storedTheme) {
-		root.setAttribute('data-theme', storedTheme);
-	}
+	if (storedTheme) root.setAttribute('data-theme', storedTheme);
 
 	if (themeToggle) {
 		themeToggle.addEventListener('click', function () {
@@ -17,6 +20,8 @@
 			localStorage.setItem('theme', next);
 		});
 	}
+
+	/* ---------- mobile nav ---------- */
 
 	var navToggle = document.getElementById('nav-toggle');
 	var navLinks = document.getElementById('nav-links');
@@ -37,31 +42,55 @@
 		});
 	}
 
+	/* ---------- scrollspy: top nav + margin rail ---------- */
+
 	var sections = document.querySelectorAll('main section[id]');
 	var navAnchors = document.querySelectorAll('.nav-links a');
+	var railItems = document.querySelectorAll('.rail-item');
 
-	if (sections.length && navAnchors.length && 'IntersectionObserver' in window) {
+	if (sections.length && 'IntersectionObserver' in window) {
 		var spyObserver = new IntersectionObserver(function (entries) {
 			entries.forEach(function (entry) {
-				if (entry.isIntersecting) {
-					var id = entry.target.getAttribute('id');
-					navAnchors.forEach(function (a) {
-						a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-					});
-				}
+				if (!entry.isIntersecting) return;
+				var id = entry.target.getAttribute('id');
+				navAnchors.forEach(function (a) {
+					a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+				});
+				railItems.forEach(function (r) {
+					r.classList.toggle('active', r.getAttribute('data-target') === id);
+				});
 			});
 		}, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
 
 		sections.forEach(function (s) { spyObserver.observe(s); });
 	}
 
+	/* ---------- reveal on scroll ---------- */
+
 	var revealEls = document.querySelectorAll('.reveal');
+	var countEls = document.querySelectorAll('[data-count-to]');
+
+	function runCount(el) {
+		var target = parseFloat(el.getAttribute('data-count-to'));
+		var suffix = el.getAttribute('data-count-suffix') || '';
+		var start = performance.now();
+		var duration = 900;
+
+		function tick(now) {
+			var p = Math.min((now - start) / duration, 1);
+			var eased = 1 - Math.pow(1 - p, 3);
+			el.textContent = Math.round(target * eased) + suffix;
+			if (p < 1) requestAnimationFrame(tick);
+		}
+		requestAnimationFrame(tick);
+	}
 
 	if (revealEls.length && 'IntersectionObserver' in window) {
 		var revealObserver = new IntersectionObserver(function (entries, obs) {
 			entries.forEach(function (entry) {
 				if (entry.isIntersecting) {
 					entry.target.classList.add('in-view');
+					entry.target.querySelectorAll('[data-count-to]').forEach(runCount);
 					obs.unobserve(entry.target);
 				}
 			});
@@ -70,10 +99,61 @@
 		revealEls.forEach(function (el) { revealObserver.observe(el); });
 	} else {
 		revealEls.forEach(function (el) { el.classList.add('in-view'); });
+		countEls.forEach(runCount);
+	}
+
+	/* ---------- custom cursor (pointer: fine only) ---------- */
+
+	if (fine) {
+		body.classList.add('has-cursor', 'no-cursor');
+
+		var ring = document.createElement('div');
+		ring.className = 'cursor';
+		var dot = document.createElement('div');
+		dot.className = 'cursor-dot';
+		body.appendChild(ring);
+		body.appendChild(dot);
+
+		var mouseX = -100, mouseY = -100;
+		var ringX = -100, ringY = -100;
+
+		window.addEventListener('mousemove', function (e) {
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+			dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+		});
+
+		function animateRing() {
+			ringX += (mouseX - ringX) * 0.18;
+			ringY += (mouseY - ringY) * 0.18;
+			ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+			requestAnimationFrame(animateRing);
+		}
+		requestAnimationFrame(animateRing);
+
+		var hoverTargets = document.querySelectorAll('a, button, .bracket-card, .tag, summary');
+		hoverTargets.forEach(function (el) {
+			el.addEventListener('mouseenter', function () { ring.classList.add('is-active'); });
+			el.addEventListener('mouseleave', function () { ring.classList.remove('is-active'); });
+		});
+	}
+
+	/* ---------- magnetic buttons ---------- */
+
+	if (fine) {
+		document.querySelectorAll('.magnetic').forEach(function (el) {
+			el.addEventListener('mousemove', function (e) {
+				var rect = el.getBoundingClientRect();
+				var x = e.clientX - rect.left - rect.width / 2;
+				var y = e.clientY - rect.top - rect.height / 2;
+				el.style.transform = 'translate(' + (x * 0.25) + 'px,' + (y * 0.35) + 'px)';
+			});
+			el.addEventListener('mouseleave', function () {
+				el.style.transform = 'translate(0,0)';
+			});
+		});
 	}
 
 	var yearEl = document.getElementById('year');
-	if (yearEl) {
-		yearEl.textContent = new Date().getFullYear();
-	}
+	if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
