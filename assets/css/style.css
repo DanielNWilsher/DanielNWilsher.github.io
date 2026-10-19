@@ -6,17 +6,17 @@
 =================================================================== */
 
 :root {
-	--bg: #121009;
-	--bg-raised: #1a1710;
-	--surface: #201c14;
-	--line: rgba(245, 239, 224, 0.14);
-	--line-soft: rgba(245, 239, 224, 0.07);
-	--ink: #f3ecdc;
-	--ink-dim: #b3a993;
-	--ink-faint: #756b57;
-	--accent: #e08a3e;
-	--accent-ink: #1a1710;
-	--signal: #6fa98c;
+	--bg: #10140f;
+	--bg-raised: #171c15;
+	--surface: #1c2219;
+	--line: rgba(240, 238, 225, 0.14);
+	--line-soft: rgba(240, 238, 225, 0.07);
+	--ink: #f1efe2;
+	--ink-dim: #a9ab9c;
+	--ink-faint: #70735f;
+	--accent: #ff6b4a;
+	--accent-ink: #15110b;
+	--signal: #3f9d7d;
 	--shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 16px 32px -18px rgba(0, 0, 0, 0.65);
 	--radius: 3px;
 	--col: 760px;
@@ -26,35 +26,35 @@
 }
 
 :root[data-theme="light"] {
-	--bg: #ece6d6;
-	--bg-raised: #f4efe1;
+	--bg: #f1ede0;
+	--bg-raised: #e8e2cf;
 	--surface: #faf7ec;
-	--line: rgba(26, 23, 16, 0.14);
-	--line-soft: rgba(26, 23, 16, 0.07);
-	--ink: #1a1710;
-	--ink-dim: #5b543f;
-	--ink-faint: #8c836c;
-	--accent: #b1551c;
+	--line: rgba(21, 23, 16, 0.14);
+	--line-soft: rgba(21, 23, 16, 0.07);
+	--ink: #15170f;
+	--ink-dim: #585a43;
+	--ink-faint: #8a8b70;
+	--accent: #d1472a;
 	--accent-ink: #faf7ec;
-	--signal: #3f7a5c;
-	--shadow: 0 1px 1px rgba(26, 23, 16, 0.06), 0 16px 32px -18px rgba(26, 23, 16, 0.25);
+	--signal: #1f7a5c;
+	--shadow: 0 1px 1px rgba(21, 23, 16, 0.06), 0 16px 32px -18px rgba(21, 23, 16, 0.25);
 	color-scheme: light;
 }
 
 @media (prefers-color-scheme: light) {
 	:root:not([data-theme="dark"]) {
-		--bg: #ece6d6;
-		--bg-raised: #f4efe1;
+		--bg: #f1ede0;
+		--bg-raised: #e8e2cf;
 		--surface: #faf7ec;
-		--line: rgba(26, 23, 16, 0.14);
-		--line-soft: rgba(26, 23, 16, 0.07);
-		--ink: #1a1710;
-		--ink-dim: #5b543f;
-		--ink-faint: #8c836c;
-		--accent: #b1551c;
+		--line: rgba(21, 23, 16, 0.14);
+		--line-soft: rgba(21, 23, 16, 0.07);
+		--ink: #15170f;
+		--ink-dim: #585a43;
+		--ink-faint: #8a8b70;
+		--accent: #d1472a;
 		--accent-ink: #faf7ec;
-		--signal: #3f7a5c;
-		--shadow: 0 1px 1px rgba(26, 23, 16, 0.06), 0 16px 32px -18px rgba(26, 23, 16, 0.25);
+		--signal: #1f7a5c;
+		--shadow: 0 1px 1px rgba(21, 23, 16, 0.06), 0 16px 32px -18px rgba(21, 23, 16, 0.25);
 		color-scheme: light;
 	}
 }
