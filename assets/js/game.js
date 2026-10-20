@@ -26,6 +26,11 @@
 	var best = parseInt(localStorage.getItem(BEST_KEY), 10) || 1;
 	var rows, cols, mask, poop, mowed, revealedPoop, mower, finds, findArmed, poopsFound, totalLawn, gameState;
 
+	function setGameState(s) {
+		gameState = s;
+		window.__lawnGamePlaying = (s === 'playing');
+	}
+
 	/* ---------- 8-bit mower-man sprite ---------- */
 
 	var SPRITE_PIXELS = [
@@ -180,7 +185,7 @@
 		finds = FINDS_PER_LEVEL;
 		findArmed = false;
 		poopsFound = 0;
-		gameState = showStart ? 'start' : 'playing';
+		setGameState(showStart ? 'start' : 'playing');
 
 		levelEl.textContent = level;
 		updateFindsUI();
@@ -192,7 +197,7 @@
 			showOverlay('start');
 		} else {
 			hideOverlay();
-			boardWrap.focus();
+			boardWrap.focus({ preventScroll: true });
 		}
 	}
 
@@ -297,16 +302,16 @@
 			actionBtn.textContent = 'try again';
 			actionBtn.onclick = function () { initLevel(level); };
 		}
-		actionBtn.focus();
+		actionBtn.focus({ preventScroll: true });
 	}
 
 	function hideOverlay() { overlayEl.hidden = true; }
 
 	function startPlaying() {
-		gameState = 'playing';
+		setGameState('playing');
 		hideOverlay();
 		updateFindsUI();
-		boardWrap.focus();
+		boardWrap.focus({ preventScroll: true });
 	}
 
 	/* ---------- move logic ---------- */
@@ -412,7 +417,7 @@
 				if (mask[r][c] && !poop[r][c]) mowed[r][c] = true;
 			}
 		}
-		gameState = 'won';
+		setGameState('won');
 		render();
 		updateProgressUI();
 
@@ -425,7 +430,7 @@
 	}
 
 	function lose(reason) {
-		gameState = 'lost';
+		setGameState('lost');
 		render();
 		showOverlay('lost', reason);
 	}

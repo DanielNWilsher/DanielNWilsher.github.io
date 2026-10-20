@@ -126,9 +126,9 @@
 			clawMarks.classList.add('claw-enter');
 			wolverine.classList.add('is-walking');
 
-			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('is-sitting'); }, 1050));
-			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('cap-on'); }, 1500));
-			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('is-writing'); }, 2000));
+			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('is-sitting'); }, 2650));
+			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('cap-on'); }, 3500));
+			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('is-writing'); }, 4300));
 		};
 
 		if ('IntersectionObserver' in window) {
@@ -175,18 +175,64 @@
 		var ringX = -100, ringY = -100;
 		var facing = 1;
 
+		var burrow = document.createElement('div');
+		burrow.className = 'cursor-burrow';
+		burrow.innerHTML = '<svg viewBox="0 0 32 20" shape-rendering="crispEdges" overflow="visible">' +
+			'<polygon points="2,8 11,1 20,8" fill="#7a3b2e" />' +
+			'<rect x="4" y="8" width="14" height="8" fill="#9a4f3b" />' +
+			'<rect x="8" y="11" width="6" height="5" fill="#2b2620" />' +
+			'<rect x="14" y="14" width="16" height="5" fill="#6b4a2d" />' +
+			'<rect x="16" y="12" width="11" height="3" fill="#7c5733" />' +
+			'<rect x="19" y="12" width="2" height="1" fill="#e8dcc0" />' +
+			'<rect x="18" y="17" width="2" height="1" fill="#4a3220" />' +
+			'<rect x="23" y="18" width="2" height="1" fill="#4a3220" />' +
+			'<rect x="26" y="16" width="1" height="1" fill="#4a3220" />' +
+			'</svg>';
+		body.appendChild(burrow);
+
+		var buried = false;
+		var lastMoveTime = performance.now();
+		var IDLE_BURY_MS = 5000;
+
+		function unbury() {
+			if (!buried) return;
+			buried = false;
+			burrow.classList.remove('is-visible');
+			ringX = mouseX;
+			ringY = mouseY;
+			ring.classList.remove('is-hidden');
+			dot.classList.remove('is-hidden');
+		}
+
+		function bury() {
+			buried = true;
+			burrow.style.left = ringX + 'px';
+			burrow.style.top = ringY + 'px';
+			burrow.classList.add('is-visible');
+			ring.classList.add('is-hidden');
+			dot.classList.add('is-hidden');
+		}
+
 		window.addEventListener('mousemove', function (e) {
 			mouseX = e.clientX;
 			mouseY = e.clientY;
+			lastMoveTime = performance.now();
+			if (buried) unbury();
 			dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) rotate(45deg)';
 		});
 
-		function animateRing() {
-			var dx = mouseX - ringX;
-			ringX += dx * 0.14;
-			ringY += (mouseY - ringY) * 0.14;
-			if (Math.abs(dx) > 1.5) facing = dx < 0 ? 1 : -1;
-			ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%) scaleX(' + facing + ')';
+		function animateRing(now) {
+			if (!buried) {
+				var dx = mouseX - ringX;
+				ringX += dx * 0.14;
+				ringY += (mouseY - ringY) * 0.14;
+				if (Math.abs(dx) > 1.5) facing = dx < 0 ? 1 : -1;
+				ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%) scaleX(' + facing + ')';
+
+				if (!window.__lawnGamePlaying && now - lastMoveTime > IDLE_BURY_MS) {
+					bury();
+				}
+			}
 			requestAnimationFrame(animateRing);
 		}
 		requestAnimationFrame(animateRing);
