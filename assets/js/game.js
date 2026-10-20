@@ -4,24 +4,60 @@
 	var boardEl = document.getElementById('game-board');
 	if (!boardEl) return;
 
+	var boardWrap = document.getElementById('game-board-wrap');
 	var levelEl = document.getElementById('game-level');
 	var progressEl = document.getElementById('game-progress');
+	var strikesEl = document.getElementById('game-strikes');
 	var bestEl = document.getElementById('game-best');
 	var findBtn = document.getElementById('game-find');
 	var findsEl = document.getElementById('game-finds');
 	var resetBtn = document.getElementById('game-reset');
-	var nextBtn = document.getElementById('game-next');
+	var actionBtn = document.getElementById('game-action');
 	var overlayEl = document.getElementById('game-overlay');
 	var overlayTitleEl = document.getElementById('game-overlay-title');
 	var overlaySubEl = document.getElementById('game-overlay-sub');
 
 	var WIN_THRESHOLD = 0.8;
 	var FINDS_PER_LEVEL = 3;
+	var MAX_POOPS_FOUND = 4;
 	var BEST_KEY = 'lawnGameBestLevel';
 
 	var level = 1;
 	var best = parseInt(localStorage.getItem(BEST_KEY), 10) || 1;
-	var rows, cols, mask, poop, mowed, revealedPoop, mower, finds, findArmed, totalLawn, gameState;
+	var rows, cols, mask, poop, mowed, revealedPoop, mower, finds, findArmed, poopsFound, totalLawn, gameState;
+
+	/* ---------- 8-bit mower-man sprite ---------- */
+
+	var SPRITE_PIXELS = [
+		[3, 0, 'skin'], [4, 0, 'skin'],
+		[3, 1, 'skin'], [4, 1, 'skin'],
+		[3, 2, 'shirt'], [4, 2, 'shirt'], [5, 2, 'skin'],
+		[6, 2, 'handle'], [7, 2, 'handle'], [8, 2, 'handle'],
+		[3, 3, 'shirt'], [4, 3, 'shirt'],
+		[2, 4, 'pants'], [4, 4, 'pants'],
+		[2, 5, 'pants'], [4, 5, 'pants'],
+		[9, 3, 'deck'], [10, 3, 'deck'], [11, 3, 'deck'],
+		[9, 4, 'body'], [10, 4, 'body'], [11, 4, 'body'],
+		[9, 5, 'body'], [10, 5, 'body'], [11, 5, 'body'],
+		[9, 6, 'wheel'], [11, 6, 'wheel']
+	];
+
+	var SPRITE_COLORS = {
+		skin: '#e7b48a',
+		shirt: 'var(--accent)',
+		pants: 'var(--ink)',
+		handle: 'var(--ink-faint)',
+		deck: 'var(--accent)',
+		body: 'var(--ink-dim)',
+		wheel: 'var(--ink)'
+	};
+
+	function mowerSpriteSVG() {
+		var rects = SPRITE_PIXELS.map(function (p) {
+			return '<rect x="' + p[0] + '" y="' + p[1] + '" width="1" height="1" fill="' + SPRITE_COLORS[p[2]] + '"/>';
+		}).join('');
+		return '<svg class="g-sprite" viewBox="0 0 13 7" shape-rendering="crispEdges" preserveAspectRatio="xMidYMid meet">' + rects + '</svg>';
+	}
 
 	/* ---------- shapes ---------- */
 
@@ -90,7 +126,7 @@
 
 	/* ---------- level generation ---------- */
 
-	function initLevel(lvl) {
+	function initLevel(lvl, showStart) {
 		level = lvl;
 		var size = Math.min(5 + Math.floor((lvl - 1) * 0.8), 10);
 		rows = size;
@@ -104,7 +140,6 @@
 			}
 		}
 
-		// find start: first lawn cell, scanning top-left outward
 		var start = null;
 		for (var r2 = 0; r2 < rows && !start; r2++) {
 			for (var c2 = 0; c2 < cols && !start; c2++) {
@@ -144,13 +179,21 @@
 		mowed[start.r][start.c] = true;
 		finds = FINDS_PER_LEVEL;
 		findArmed = false;
-		gameState = 'playing';
+		poopsFound = 0;
+		gameState = showStart ? 'start' : 'playing';
 
-		overlayEl.hidden = true;
 		levelEl.textContent = level;
 		updateFindsUI();
+		updateStrikesUI();
 		updateProgressUI();
 		render();
+
+		if (gameState === 'start') {
+			showOverlay('start');
+		} else {
+			hideOverlay();
+			boardWrap.focus();
+		}
 	}
 
 	/* ---------- rendering ---------- */
@@ -171,7 +214,7 @@
 
 				cell.className = 'game-cell';
 				cell.setAttribute('role', 'button');
-				cell.setAttribute('tabindex', '0');
+				cell.setAttribute('tabindex', '-1');
 
 				if (poop[r][c] && revealedPoop[r][c]) {
 					cell.classList.add('poop');
@@ -193,15 +236,12 @@
 				if (r === mower.r && c === mower.c) {
 					var m = document.createElement('span');
 					m.className = 'g-mower';
-					m.textContent = '🚶';
+					m.innerHTML = mowerSpriteSVG();
 					cell.appendChild(m);
 				}
 
 				(function (rr, cc, el) {
-					el.addEventListener('click', function () { handleClick(rr, cc, el); });
-					el.addEventListener('keydown', function (e) {
-						if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(rr, cc, el); }
-					});
+					el.addEventListener('click', function () { attemptMove(rr, cc, el); });
 				})(r, c, cell);
 
 				boardEl.appendChild(cell);
@@ -223,14 +263,49 @@
 
 	function updateFindsUI() {
 		findsEl.textContent = finds;
-		findBtn.disabled = finds <= 0;
+		findBtn.disabled = finds <= 0 || gameState !== 'playing';
 		findBtn.classList.toggle('is-armed', findArmed);
+	}
+
+	function updateStrikesUI() {
+		strikesEl.textContent = poopsFound + '/' + MAX_POOPS_FOUND;
 	}
 
 	function flashShake(el) {
 		if (!el) return;
 		el.classList.add('shake');
 		setTimeout(function () { el.classList.remove('shake'); }, 300);
+	}
+
+	/* ---------- overlay states ---------- */
+
+	function showOverlay(kind, extra) {
+		overlayEl.hidden = false;
+		if (kind === 'start') {
+			overlayTitleEl.textContent = 'Mow the Lawn';
+			overlaySubEl.textContent = 'An 8-bit minesweeper. Mow 80% of the lawn — poop blocks your path, and finding 4 ends the game.';
+			actionBtn.textContent = 'start mowing';
+			actionBtn.onclick = function () { startPlaying(); };
+		} else if (kind === 'won') {
+			overlayTitleEl.textContent = 'Lawn mowed!';
+			overlaySubEl.textContent = 'Level ' + level + ' complete — onward to a trickier lawn.';
+			actionBtn.textContent = 'next lawn';
+			actionBtn.onclick = function () { initLevel(level + 1); };
+		} else if (kind === 'lost') {
+			overlayTitleEl.textContent = 'Game over';
+			overlaySubEl.textContent = extra || 'The lawn got the better of you.';
+			actionBtn.textContent = 'try again';
+			actionBtn.onclick = function () { initLevel(level); };
+		}
+	}
+
+	function hideOverlay() { overlayEl.hidden = true; }
+
+	function startPlaying() {
+		gameState = 'playing';
+		hideOverlay();
+		updateFindsUI();
+		boardWrap.focus();
 	}
 
 	/* ---------- move logic ---------- */
@@ -247,7 +322,23 @@
 		return path;
 	}
 
-	function handleClick(r, c, el) {
+	function canStillProgress() {
+		var dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+		for (var d = 0; d < dirs.length; d++) {
+			var r = mower.r + dirs[d][0], c = mower.c + dirs[d][1];
+			while (inBounds(r, c) && mask[r][c] && mowed[r][c]) {
+				r += dirs[d][0];
+				c += dirs[d][1];
+			}
+			if (inBounds(r, c) && mask[r][c]) {
+				if (!poop[r][c]) return true;
+				if (finds > 0) return true;
+			}
+		}
+		return false;
+	}
+
+	function attemptMove(r, c, el) {
 		if (gameState !== 'playing') return;
 		if (r === mower.r && c === mower.c) return;
 
@@ -271,7 +362,10 @@
 					newPos = cell;
 					continue;
 				} else {
-					revealedPoop[cell.r][cell.c] = true;
+					if (!revealedPoop[cell.r][cell.c]) {
+						revealedPoop[cell.r][cell.c] = true;
+						poopsFound++;
+					}
 					break;
 				}
 			}
@@ -284,23 +378,36 @@
 		if (usingFind) {
 			if (cleared > 0) finds--;
 			findArmed = false;
-			updateFindsUI();
 		}
 
+		updateFindsUI();
+		updateStrikesUI();
 		render();
 		var progress = updateProgressUI();
-		checkWin(progress.pct);
+		evaluateOutcome(progress.pct);
 	}
 
-	function checkWin(pct) {
-		if (pct < WIN_THRESHOLD * 100) return;
+	function evaluateOutcome(pct) {
+		if (pct >= WIN_THRESHOLD * 100) {
+			win();
+			return;
+		}
+		if (poopsFound >= MAX_POOPS_FOUND) {
+			lose('You found ' + MAX_POOPS_FOUND + ' piles of poop. The lawn wins this round.');
+			return;
+		}
+		if (!canStillProgress()) {
+			lose('Poop boxed you in — there was no clean path left to 80%.');
+		}
+	}
 
+	function win() {
 		for (var r = 0; r < rows; r++) {
 			for (var c = 0; c < cols; c++) {
 				if (mask[r][c] && !poop[r][c]) mowed[r][c] = true;
 			}
 		}
-		gameState = 'levelcomplete';
+		gameState = 'won';
 		render();
 		updateProgressUI();
 
@@ -309,10 +416,13 @@
 			localStorage.setItem(BEST_KEY, String(best));
 		}
 		bestEl.textContent = best;
+		showOverlay('won');
+	}
 
-		overlayTitleEl.textContent = 'Lawn mowed!';
-		overlaySubEl.textContent = 'Level ' + level + ' complete — onward to a trickier lawn.';
-		overlayEl.hidden = false;
+	function lose(reason) {
+		gameState = 'lost';
+		render();
+		showOverlay('lost', reason);
 	}
 
 	/* ---------- controls ---------- */
@@ -324,8 +434,22 @@
 	});
 
 	resetBtn.addEventListener('click', function () { initLevel(level); });
-	nextBtn.addEventListener('click', function () { initLevel(level + 1); });
+
+	boardWrap.addEventListener('keydown', function (e) {
+		if (gameState !== 'playing') return;
+		var dir = null;
+		if (e.key === 'ArrowUp') dir = [-1, 0];
+		else if (e.key === 'ArrowDown') dir = [1, 0];
+		else if (e.key === 'ArrowLeft') dir = [0, -1];
+		else if (e.key === 'ArrowRight') dir = [0, 1];
+		if (!dir) return;
+
+		e.preventDefault();
+		var target = { r: mower.r + dir[0], c: mower.c + dir[1] };
+		if (!inBounds(target.r, target.c) || !mask[target.r][target.c]) return;
+		attemptMove(target.r, target.c, null);
+	});
 
 	bestEl.textContent = best;
-	initLevel(1);
+	initLevel(1, true);
 })();

@@ -102,6 +102,49 @@
 		countEls.forEach(runCount);
 	}
 
+	/* ---------- education card: claw drag-in ---------- */
+
+	var clawStage = document.getElementById('claw-stage');
+	var eduCard = document.getElementById('edu-card');
+	var clawHand = document.getElementById('claw-hand');
+	var clawMarks = document.getElementById('claw-marks');
+
+	if (clawStage && eduCard && clawHand && clawMarks) {
+		var clawEls = [eduCard, clawHand, clawMarks];
+
+		var playClaw = function () {
+			clawEls.forEach(function (el) { el.classList.remove('claw-enter'); });
+			// force reflow so the animation can restart
+			void eduCard.offsetWidth;
+			clawEls.forEach(function (el) { el.classList.add('claw-enter'); });
+		};
+
+		if ('IntersectionObserver' in window) {
+			var clawObserver = new IntersectionObserver(function (entries, obs) {
+				entries.forEach(function (entry) {
+					if (entry.isIntersecting) {
+						playClaw();
+						obs.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.3 });
+			clawObserver.observe(clawStage);
+		} else {
+			playClaw();
+		}
+
+		eduCard.addEventListener('click', playClaw);
+		eduCard.addEventListener('keydown', function (e) {
+			if (e.key === 'Enter' || e.key === ' ') {
+				// let native <details>/<summary> toggling happen; only replay when the
+				// click/press wasn't on the coursework toggle itself
+				if (e.target.closest && e.target.closest('summary')) return;
+				e.preventDefault();
+				playClaw();
+			}
+		});
+	}
+
 	/* ---------- custom cursor: a dog chasing a bone (pointer: fine only) ---------- */
 
 	if (fine) {
@@ -130,7 +173,7 @@
 			var dx = mouseX - ringX;
 			ringX += dx * 0.14;
 			ringY += (mouseY - ringY) * 0.14;
-			if (Math.abs(dx) > 1.5) facing = dx < 0 ? -1 : 1;
+			if (Math.abs(dx) > 1.5) facing = dx < 0 ? 1 : -1;
 			ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%) scaleX(' + facing + ')';
 			requestAnimationFrame(animateRing);
 		}
