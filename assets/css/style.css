@@ -153,6 +153,34 @@ body.has-cursor .cursor.is-active {
 	font-size: 34px;
 }
 
+.cursor.is-hidden,
+.cursor-dot.is-hidden {
+	opacity: 0 !important;
+	transition: opacity 0.15s ease;
+}
+
+.cursor-burrow {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 72px;
+	pointer-events: none;
+	z-index: 403;
+	opacity: 0;
+	transform: translate(-50%, -55%) scale(0.3);
+	transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	display: none;
+}
+
+body.has-cursor .cursor-burrow {
+	display: block;
+}
+
+.cursor-burrow.is-visible {
+	opacity: 1;
+	transform: translate(-50%, -55%) scale(1);
+}
+
 /* ---------- layout shells ---------- */
 
 .col {
@@ -571,7 +599,7 @@ section { position: relative; }
 .dossier:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .dossier.claw-enter {
-	animation: dossier-drag-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+	animation: dossier-drag-in 2.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @keyframes dossier-drag-in {
@@ -597,7 +625,7 @@ section { position: relative; }
 }
 
 .wolverine.is-walking {
-	animation: wolverine-walk-in 1.05s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+	animation: wolverine-walk-in 2.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 @keyframes wolverine-walk-in {
@@ -611,8 +639,8 @@ section { position: relative; }
 .wolverine .w-legs-a,
 .wolverine .w-legs-b { opacity: 0; }
 
-.wolverine.is-walking .w-legs-a { animation: leg-swap 0.26s steps(1) infinite; }
-.wolverine.is-walking .w-legs-b { animation: leg-swap 0.26s steps(1) infinite reverse; }
+.wolverine.is-walking .w-legs-a { animation: leg-swap 0.4s steps(1) infinite; }
+.wolverine.is-walking .w-legs-b { animation: leg-swap 0.4s steps(1) infinite reverse; }
 
 @keyframes leg-swap {
 	0%, 49% { opacity: 1; }
@@ -698,7 +726,7 @@ section { position: relative; }
 }
 
 .claw-marks.claw-enter {
-	animation: claw-marks-flash 1s ease both;
+	animation: claw-marks-flash 2.6s ease both;
 }
 
 @keyframes claw-marks-flash {
@@ -1234,5 +1262,6 @@ footer { border-top: 1px solid var(--line); padding-block: 1.75rem; }
 @media (max-width: 480px) {
 	.hero-visual { width: min(42%, 120px); }
 	body.has-cursor .cursor,
-	body.has-cursor .cursor-dot { display: none; }
+	body.has-cursor .cursor-dot,
+	body.has-cursor .cursor-burrow { display: none; }
 }
