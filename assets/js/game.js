@@ -297,6 +297,7 @@
 			actionBtn.textContent = 'try again';
 			actionBtn.onclick = function () { initLevel(level); };
 		}
+		actionBtn.focus();
 	}
 
 	function hideOverlay() { overlayEl.hidden = true; }
@@ -356,6 +357,10 @@
 			var cell = path[i];
 			if (poop[cell.r][cell.c]) {
 				if (usingFind) {
+					if (revealedPoop[cell.r][cell.c]) {
+						poopsFound = Math.max(0, poopsFound - 1);
+						revealedPoop[cell.r][cell.c] = false;
+					}
 					poop[cell.r][cell.c] = false;
 					mowed[cell.r][cell.c] = true;
 					cleared++;

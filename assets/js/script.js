@@ -102,45 +102,57 @@
 		countEls.forEach(runCount);
 	}
 
-	/* ---------- education card: claw drag-in ---------- */
+	/* ---------- education card: wolverine walks it in, sits, and writes ---------- */
 
 	var clawStage = document.getElementById('claw-stage');
 	var eduCard = document.getElementById('edu-card');
-	var clawHand = document.getElementById('claw-hand');
+	var wolverine = document.getElementById('wolverine');
 	var clawMarks = document.getElementById('claw-marks');
 
-	if (clawStage && eduCard && clawHand && clawMarks) {
-		var clawEls = [eduCard, clawHand, clawMarks];
+	if (clawStage && eduCard && wolverine && clawMarks) {
+		var wolverineTimers = [];
 
-		var playClaw = function () {
-			clawEls.forEach(function (el) { el.classList.remove('claw-enter'); });
-			// force reflow so the animation can restart
+		var playWolverine = function () {
+			wolverineTimers.forEach(function (t) { clearTimeout(t); });
+			wolverineTimers = [];
+
+			[eduCard, wolverine, clawMarks].forEach(function (el) {
+				el.classList.remove('claw-enter', 'is-walking', 'is-sitting', 'cap-on', 'is-writing');
+			});
+			// force reflow so the animations can restart
 			void eduCard.offsetWidth;
-			clawEls.forEach(function (el) { el.classList.add('claw-enter'); });
+
+			eduCard.classList.add('claw-enter');
+			clawMarks.classList.add('claw-enter');
+			wolverine.classList.add('is-walking');
+
+			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('is-sitting'); }, 1050));
+			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('cap-on'); }, 1500));
+			wolverineTimers.push(setTimeout(function () { wolverine.classList.add('is-writing'); }, 2000));
 		};
 
 		if ('IntersectionObserver' in window) {
 			var clawObserver = new IntersectionObserver(function (entries, obs) {
 				entries.forEach(function (entry) {
 					if (entry.isIntersecting) {
-						playClaw();
+						playWolverine();
 						obs.unobserve(entry.target);
 					}
 				});
 			}, { threshold: 0.3 });
 			clawObserver.observe(clawStage);
 		} else {
-			playClaw();
+			playWolverine();
 		}
 
-		eduCard.addEventListener('click', playClaw);
+		eduCard.addEventListener('click', playWolverine);
 		eduCard.addEventListener('keydown', function (e) {
 			if (e.key === 'Enter' || e.key === ' ') {
 				// let native <details>/<summary> toggling happen; only replay when the
 				// click/press wasn't on the coursework toggle itself
 				if (e.target.closest && e.target.closest('summary')) return;
 				e.preventDefault();
-				playClaw();
+				playWolverine();
 			}
 		});
 	}
