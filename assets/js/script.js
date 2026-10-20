@@ -102,36 +102,41 @@
 		countEls.forEach(runCount);
 	}
 
-	/* ---------- custom cursor (pointer: fine only) ---------- */
+	/* ---------- custom cursor: a dog chasing a bone (pointer: fine only) ---------- */
 
 	if (fine) {
 		body.classList.add('has-cursor', 'no-cursor');
 
 		var ring = document.createElement('div');
 		ring.className = 'cursor';
+		ring.textContent = '🐕'; // 🐕
 		var dot = document.createElement('div');
 		dot.className = 'cursor-dot';
+		dot.textContent = '🦴'; // 🦴
 		body.appendChild(ring);
 		body.appendChild(dot);
 
 		var mouseX = -100, mouseY = -100;
 		var ringX = -100, ringY = -100;
+		var facing = 1;
 
 		window.addEventListener('mousemove', function (e) {
 			mouseX = e.clientX;
 			mouseY = e.clientY;
-			dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+			dot.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) rotate(45deg)';
 		});
 
 		function animateRing() {
-			ringX += (mouseX - ringX) * 0.18;
-			ringY += (mouseY - ringY) * 0.18;
-			ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+			var dx = mouseX - ringX;
+			ringX += dx * 0.14;
+			ringY += (mouseY - ringY) * 0.14;
+			if (Math.abs(dx) > 1.5) facing = dx < 0 ? -1 : 1;
+			ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%) scaleX(' + facing + ')';
 			requestAnimationFrame(animateRing);
 		}
 		requestAnimationFrame(animateRing);
 
-		var hoverTargets = document.querySelectorAll('a, button, .bracket-card, .tag, summary');
+		var hoverTargets = document.querySelectorAll('a, button, .bracket-card, .tag, summary, .game-cell');
 		hoverTargets.forEach(function (el) {
 			el.addEventListener('mouseenter', function () { ring.classList.add('is-active'); });
 			el.addEventListener('mouseleave', function () { ring.classList.remove('is-active'); });

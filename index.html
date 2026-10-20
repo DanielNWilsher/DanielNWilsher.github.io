@@ -9,7 +9,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
-	<link rel="stylesheet" href="assets/css/style.css?v=3" />
+	<link rel="stylesheet" href="assets/css/style.css?v=4" />
 </head>
 <body>
 
@@ -25,6 +25,7 @@
 				<a href="#experience">log</a>
 				<a href="#skills">stack</a>
 				<a href="#projects">work</a>
+				<a href="#play">play</a>
 				<a href="#contact">contact</a>
 			</nav>
 
@@ -46,6 +47,7 @@
 		<a class="rail-item" href="#experience" data-target="experience"><span class="rail-tick"></span><span class="rail-label">log</span></a>
 		<a class="rail-item" href="#skills" data-target="skills"><span class="rail-tick"></span><span class="rail-label">stack</span></a>
 		<a class="rail-item" href="#projects" data-target="projects"><span class="rail-tick"></span><span class="rail-label">work</span></a>
+		<a class="rail-item" href="#play" data-target="play"><span class="rail-tick"></span><span class="rail-label">play</span></a>
 		<a class="rail-item" href="#contact" data-target="contact"><span class="rail-tick"></span><span class="rail-label">contact</span></a>
 	</nav>
 
@@ -54,6 +56,14 @@
 		<!-- Hero -->
 		<section id="home">
 			<div class="hero-inner">
+				<div class="hero-visual reveal">
+					<div class="hero-photo">
+						<span class="crop-mark tl"></span><span class="crop-mark tr"></span>
+						<span class="crop-mark bl"></span><span class="crop-mark br"></span>
+						<img src="images/danielSuitPicture.jpg" alt="Daniel Wilsher" />
+					</div>
+					<div class="hero-caption">fig. 01 &mdash; daniel, in the field</div>
+				</div>
 				<div class="hero-content reveal">
 					<span class="hero-kicker"><span class="blink"></span> status: open to new opportunities</span>
 					<h1>Hi, I'm Daniel Wilsher &mdash; I build <em>software that holds up</em>.</h1>
@@ -68,20 +78,6 @@
 						<a href="mailto:daniel.m.wilsher@gmail.com" class="icon-btn" aria-label="Email"><i class="fas fa-envelope"></i></a>
 					</div>
 				</div>
-				<div class="hero-visual reveal">
-					<div class="hero-photo">
-						<span class="crop-mark tl"></span><span class="crop-mark tr"></span>
-						<span class="crop-mark bl"></span><span class="crop-mark br"></span>
-						<img src="images/danielSuitPicture.jpg" alt="Daniel Wilsher" />
-					</div>
-					<div class="hero-caption">fig. 01 &mdash; daniel, in the field</div>
-				</div>
-			</div>
-			<div class="signal-wrap reveal">
-				<svg class="signal-line" viewBox="0 0 620 40" preserveAspectRatio="none">
-					<path d="M0,20 L140,20 L160,6 L180,34 L200,20 L260,20 L280,10 L300,30 L320,20 L620,20" />
-					<path class="traced" d="M0,20 L140,20 L160,6 L180,34 L200,20 L260,20 L280,10 L300,30 L320,20 L620,20" />
-				</svg>
 			</div>
 		</section>
 
@@ -328,11 +324,46 @@
 			</div>
 		</section>
 
+		<!-- Play -->
+		<section id="play" class="block">
+			<div class="col-wide">
+				<div class="spec-label reveal">
+					<span class="idx">&sect; 05 / play</span>
+					<span class="rule"></span>
+				</div>
+				<h2 class="reveal">Mow the Lawn.</h2>
+				<p class="lede reveal">A minesweeper for people who'd rather be outside. Click a square to mow a straight line toward it &mdash; but the lawn is hiding a few surprises. Clear 80% and the rest mows itself.</p>
+
+				<div class="game reveal" id="game-root">
+					<div class="game-panel">
+						<div class="game-stats">
+							<div class="game-stat"><span class="g-label">level</span><span class="g-value" id="game-level">1</span></div>
+							<div class="game-stat"><span class="g-label">mowed</span><span class="g-value" id="game-progress">0%</span></div>
+							<div class="game-stat"><span class="g-label">best level</span><span class="g-value" id="game-best">1</span></div>
+						</div>
+						<div class="game-controls">
+							<button class="btn btn-ghost magnetic" id="game-find" type="button">find poop &times;<span id="game-finds">3</span></button>
+							<button class="btn btn-ghost magnetic" id="game-reset" type="button">new lawn</button>
+						</div>
+					</div>
+					<div class="game-board-wrap">
+						<div class="game-board" id="game-board"></div>
+						<div class="game-overlay" id="game-overlay" hidden>
+							<p class="g-overlay-title" id="game-overlay-title">Level complete!</p>
+							<p class="g-overlay-sub" id="game-overlay-sub"></p>
+							<button class="btn btn-primary magnetic" id="game-next" type="button">next lawn <span class="arrow">&rarr;</span></button>
+						</div>
+					</div>
+					<p class="game-hint" id="game-hint">click a square in the mower's row or column to mow toward it &mdash; find poop clears a blocked line (3 per lawn)</p>
+				</div>
+			</div>
+		</section>
+
 		<!-- Contact -->
 		<section id="contact" class="block">
 			<div class="col-wide">
 				<div class="spec-label reveal">
-					<span class="idx">&sect; 05 / contact</span>
+					<span class="idx">&sect; 06 / contact</span>
 					<span class="rule"></span>
 				</div>
 				<div class="contact-block reveal">
@@ -362,6 +393,7 @@
 		</div>
 	</footer>
 
-	<script src="assets/js/script.js?v=3"></script>
+	<script src="assets/js/script.js?v=4"></script>
+	<script src="assets/js/game.js?v=1"></script>
 </body>
 </html>
