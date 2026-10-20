@@ -581,26 +581,102 @@ section { position: relative; }
 	100% { transform: translateX(0) rotate(0deg); opacity: 1; }
 }
 
-.claw-hand {
+.claw-stage {
+	padding-bottom: 86px;
+}
+
+.wolverine {
 	position: absolute;
-	top: 28%;
-	left: 0;
-	width: 56px;
+	bottom: -8px;
+	left: 10%;
+	width: 128px;
 	z-index: 2;
 	opacity: 0;
 	pointer-events: none;
+	transform: translate(-340%, -40%);
 }
 
-.claw-hand.claw-enter {
-	animation: claw-swipe-in 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+.wolverine.is-walking {
+	animation: wolverine-walk-in 1.05s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-@keyframes claw-swipe-in {
-	0% { transform: translate(-220%, 10%) rotate(-18deg); opacity: 0; }
-	18% { opacity: 1; }
-	55% { transform: translate(-6%, 0%) rotate(4deg); opacity: 1; }
-	75% { transform: translate(-6%, 0%) rotate(4deg); opacity: 1; }
-	100% { transform: translate(-180%, -18%) rotate(-28deg); opacity: 0; }
+@keyframes wolverine-walk-in {
+	0% { transform: translate(-340%, -40%); opacity: 0; }
+	15% { opacity: 1; }
+	55% { transform: translate(-35%, -35%); opacity: 1; }
+	78% { transform: translate(-8%, -5%); opacity: 1; }
+	100% { transform: translate(0, 0); opacity: 1; }
+}
+
+.wolverine .w-legs-a,
+.wolverine .w-legs-b { opacity: 0; }
+
+.wolverine.is-walking .w-legs-a { animation: leg-swap 0.26s steps(1) infinite; }
+.wolverine.is-walking .w-legs-b { animation: leg-swap 0.26s steps(1) infinite reverse; }
+
+@keyframes leg-swap {
+	0%, 49% { opacity: 1; }
+	50%, 100% { opacity: 0; }
+}
+
+.wolverine .w-legs-sit { opacity: 0; }
+
+.wolverine.is-sitting .w-legs-a,
+.wolverine.is-sitting .w-legs-b { animation: none; opacity: 0; }
+
+.wolverine.is-sitting .w-legs-sit { opacity: 1; }
+
+.wolverine .w-cap {
+	opacity: 0;
+	transform: translateY(-10px);
+	transform-box: fill-box;
+	transform-origin: center;
+}
+
+.wolverine.cap-on .w-cap {
+	animation: cap-drop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes cap-drop {
+	0% { transform: translateY(-10px); opacity: 0; }
+	100% { transform: translateY(0); opacity: 1; }
+}
+
+.wolverine .w-paper,
+.wolverine .w-pencil { opacity: 0; }
+
+.wolverine.is-writing .w-paper,
+.wolverine.is-writing .w-pencil { opacity: 1; transition: opacity 0.3s ease; }
+
+.wolverine .w-pencil {
+	transform-box: fill-box;
+	transform-origin: left center;
+}
+
+.wolverine.is-writing .w-pencil {
+	animation: pencil-write 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pencil-write {
+	0% { transform: rotate(-8deg); }
+	100% { transform: rotate(10deg); }
+}
+
+.wolverine .w-scribble {
+	fill: none;
+	stroke: var(--ink-faint);
+	stroke-width: 0.45;
+	stroke-linecap: round;
+	opacity: 0;
+}
+
+.wolverine.is-writing .w-scribble-1 { animation: scribble-blink 1.5s ease infinite; animation-delay: 0s; }
+.wolverine.is-writing .w-scribble-2 { animation: scribble-blink 1.5s ease infinite; animation-delay: 0.5s; }
+.wolverine.is-writing .w-scribble-3 { animation: scribble-blink 1.5s ease infinite; animation-delay: 1s; }
+
+@keyframes scribble-blink {
+	0%, 100% { opacity: 0; }
+	50% { opacity: 1; }
 }
 
 .claw-marks {
@@ -645,7 +721,16 @@ section { position: relative; }
 .dossier:focus-visible .claw-hint { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-	.dossier, .claw-hand, .claw-marks { animation: none !important; opacity: 1; transform: none; }
+	.dossier, .wolverine, .claw-marks { animation: none !important; opacity: 1; transform: none; }
+	.wolverine .w-legs-a,
+	.wolverine .w-legs-b { opacity: 0; }
+	.wolverine .w-legs-sit,
+	.wolverine .w-cap,
+	.wolverine .w-paper,
+	.wolverine .w-pencil { opacity: 1; transform: none; }
+	.wolverine .w-scribble-1,
+	.wolverine .w-scribble-2 { opacity: 1; }
+	.wolverine .w-scribble-3 { opacity: 0; }
 }
 
 .dossier-head {
