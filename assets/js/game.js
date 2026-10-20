@@ -441,6 +441,9 @@
 		if (finds <= 0 || gameState !== 'playing') return;
 		findArmed = !findArmed;
 		updateFindsUI();
+		// clicking this button (a sibling of the board, not a descendant) steals
+		// focus away from it, which silently breaks arrow-key movement
+		boardWrap.focus({ preventScroll: true });
 	});
 
 	resetBtn.addEventListener('click', function () { initLevel(level); });

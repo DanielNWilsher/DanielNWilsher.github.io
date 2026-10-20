@@ -116,69 +116,130 @@ code, .mono {
 	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
-/* ---------- custom cursor ---------- */
+/* ---------- custom cursor: roaming dog + bone ---------- */
 
-.cursor {
-	position: fixed;
-	top: 0;
-	left: 0;
-	pointer-events: none;
-	z-index: 400;
-	font-size: 26px;
-	line-height: 1;
-	transform: translate(-50%, -50%);
-	transition: font-size 0.18s ease;
-	display: none;
-	filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35));
-}
-
-.cursor-dot {
-	position: fixed;
-	top: 0;
-	left: 0;
-	pointer-events: none;
-	z-index: 401;
-	font-size: 15px;
-	line-height: 1;
-	transform: translate(-50%, -50%) rotate(45deg);
+.dog-sprite,
+.bone-sprite,
+.doghouse,
+.dirt-kick {
 	display: none;
 }
 
-body.has-cursor .cursor,
-body.has-cursor .cursor-dot {
+body.has-cursor .dog-sprite,
+body.has-cursor .bone-sprite,
+body.has-cursor .doghouse,
+body.has-cursor .dirt-kick {
 	display: block;
 }
 
-body.has-cursor .cursor.is-active {
-	font-size: 34px;
+.dog-sprite {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 46px;
+	pointer-events: none;
+	z-index: 401;
+	filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
 }
 
-.cursor.is-hidden,
-.cursor-dot.is-hidden {
-	opacity: 0 !important;
+.dog-sprite .d-legs-a,
+.dog-sprite .d-legs-b,
+.dog-sprite .d-legs-nap,
+.dog-sprite .d-legs-dig { opacity: 0; }
+
+.dog-sprite.is-wander .d-legs-a,
+.dog-sprite.is-chase .d-legs-a,
+.dog-sprite.is-drag .d-legs-a,
+.dog-sprite.is-seek .d-legs-a,
+.dog-sprite.is-flee .d-legs-a { animation: dog-leg-swap 0.4s steps(1) infinite; }
+
+.dog-sprite.is-wander .d-legs-b,
+.dog-sprite.is-chase .d-legs-b,
+.dog-sprite.is-drag .d-legs-b,
+.dog-sprite.is-seek .d-legs-b,
+.dog-sprite.is-flee .d-legs-b { animation: dog-leg-swap 0.4s steps(1) infinite reverse; }
+
+.dog-sprite.is-seek .d-legs-a,
+.dog-sprite.is-seek .d-legs-b,
+.dog-sprite.is-flee .d-legs-a,
+.dog-sprite.is-flee .d-legs-b { animation-duration: 0.18s; }
+
+@keyframes dog-leg-swap {
+	0%, 49% { opacity: 1; }
+	50%, 100% { opacity: 0; }
+}
+
+.dog-sprite.is-nap .d-legs-nap { opacity: 1; }
+.dog-sprite.is-nap .d-tail { animation: dog-tail-wag 1.2s ease-in-out infinite; }
+
+@keyframes dog-tail-wag {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(1px); }
+}
+
+.dog-sprite.is-bury .d-legs-dig { opacity: 1; animation: dog-dig-kick 0.3s steps(1) infinite; }
+
+@keyframes dog-dig-kick {
+	0%, 49% { transform: translateX(0); }
+	50%, 100% { transform: translateX(-1px); }
+}
+
+.bone-sprite {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 24px;
+	pointer-events: none;
+	z-index: 400;
+	filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 	transition: opacity 0.15s ease;
 }
 
-.cursor-burrow {
+.bone-sprite.is-hidden { opacity: 0; }
+
+.doghouse {
+	position: fixed;
+	left: 28px;
+	bottom: 24px;
+	width: 84px;
+	pointer-events: none;
+	z-index: 390;
+	opacity: 0.92;
+}
+
+.doghouse .mound { opacity: 0; }
+.doghouse.is-buried .mound { opacity: 1; }
+
+.dirt-kick {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 72px;
+	width: 1px;
+	height: 1px;
 	pointer-events: none;
-	z-index: 403;
+	z-index: 402;
+}
+
+.dirt-kick span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 4px;
+	height: 4px;
+	background: #7c5733;
 	opacity: 0;
-	transform: translate(-50%, -55%) scale(0.3);
-	transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-	display: none;
 }
 
-body.has-cursor .cursor-burrow {
-	display: block;
+.dirt-kick.is-active span {
+	animation: dirt-speck 0.7s ease-out both;
+	animation-delay: calc(var(--i) * 0.04s);
 }
 
-.cursor-burrow.is-visible {
-	opacity: 1;
-	transform: translate(-50%, -55%) scale(1);
+.dirt-kick.is-active span:nth-child(odd) { background: #6b4a2d; }
+
+@keyframes dirt-speck {
+	0% { transform: translate(0, 0); opacity: 1; }
+	100% { transform: translate(calc((var(--i) - 2) * 9px), -22px) scale(0.6); opacity: 0; }
 }
 
 /* ---------- layout shells ---------- */
@@ -1261,7 +1322,8 @@ footer { border-top: 1px solid var(--line); padding-block: 1.75rem; }
 
 @media (max-width: 480px) {
 	.hero-visual { width: min(42%, 120px); }
-	body.has-cursor .cursor,
-	body.has-cursor .cursor-dot,
-	body.has-cursor .cursor-burrow { display: none; }
+	body.has-cursor .dog-sprite,
+	body.has-cursor .bone-sprite,
+	body.has-cursor .doghouse,
+	body.has-cursor .dirt-kick { display: none; }
 }
